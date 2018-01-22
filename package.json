@@ -5,8 +5,7 @@
   "main": "bundle/**",
   "license": "MIT",
   "scripts": {
-    "start": "webpack && webpack --watch",
-    "watch": "webpack --watch",
+    "start": "webpack --watch",
     "build": "webpack --env prod"
   },
   "author": "Boris Zyryanov",

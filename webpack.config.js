@@ -6,8 +6,8 @@ const uglifyJS = require('./webpack/js.uglify');
 const devtool = require('./webpack/devtool');
 
 const paths = {
-    build: path.join(__dirname, '../public'),
-    sass: path.join(__dirname, 'sass')
+    build: path.join(__dirname, './build'),
+    sass: path.join(__dirname, './sass')
 };
 
 module.exports = env => {

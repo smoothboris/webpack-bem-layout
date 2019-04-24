@@ -1,12 +1,12 @@
-#Webpack BEM Layout
+# Webpack BEM Layout
 
 
-##Что это
+## Что это
 Болванка для верстки проекта по БЭМ.   
 Inpired by [NTH-start-project](https://github.com/nicothin/NTH-start-project).  
 
 
-##Особенности
+## Особенности
 * Webpack, SCSS, Babel, БЭМ.
 * Css в компилируется в отдельный файлик.
 * Dev sever, HMR.
@@ -38,7 +38,7 @@ LayoutModuleCreate.js -- Скрипт для генерации блоков
 ```
 
 
-##Как это использовать
+## Как это использовать
 
 Сгенерировать модуль:
 ```
@@ -56,7 +56,7 @@ node LayoutModuleCreate.js
 Если скрипту не передавать никаких параметров, то он перегенерирует Layout.js.
 
 
-##Команды
+## Команды
 ```
 npm dev    # dev server, hmr
 npm build  # сборка проекта для прода
@@ -64,7 +64,7 @@ npm watch  # вотчинг за файликами
 ```
 
 
-##To Do
+## To Do
 * Добавить mkdir в dev dependencies 
 * Организовать конфиги webpack'a в отдельный каталог
 * Добавить линтинг

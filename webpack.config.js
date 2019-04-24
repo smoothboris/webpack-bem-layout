@@ -1,118 +1,96 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const merge = require('webpack-merge');
-const uglifyJS = require('./webpack/js.uglify');
-const devtool = require('./webpack/devtool');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const paths = {
-    build: path.join(__dirname, './build'),
-    sass: path.join(__dirname, './sass')
-};
+// Is the current build a development build
+const IS_DEV = (process.env.NODE_ENV === 'dev');
 
-module.exports = env => {
+const dirNode = 'node_modules';
+const dirApp = path.join(__dirname, 'App');
+const dirAssets = path.join(__dirname, 'assets');
 
-    // Получаем окуржение
-    let testEnv = (function (env) {
-        if (env === 'prod') {
-            console.log('-------- Production');
-            return true;
-        } else {
-            console.log('-------- Development');
-            return false;
-        }
-    })(env);
+module.exports = {
+    entry: {
+        //vendor: [
+        //    'jquery'
+        //],
+        app: path.join(dirApp, 'App')
+    },
+    resolve: {
+        modules: [
+            dirNode,
+            dirApp,
+            dirAssets
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            IS_DEV: IS_DEV
+        }),
 
-    // Основные настройки
-    let common = merge(
-        [{
-            entry: {
-                // bundle.js, style.css попадают в placeholder name
-                // пути указанные в свойстве актуальны для компиляции,
-                // т.е. собранный [name].{js,css} будет доступен по
-                // paths.build + path/to/entry + [name].{js,css,etc.}
-                'bundle/bundle.js': './bundle/bundle.js',
-                'css/style.css': './sass/style.scss'
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery'
+        }),
+
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'index.ejs'),
+            title: 'Webpack Starter Kit',
+            // filename: 'index.html'
+        }),
+
+        new MiniCssExtractPlugin({
+            filename: '[name].[hash].css',
+            // chunkFilename: '[id].css',
+        }),
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /(node_modules)/,
+                options: {
+                    // compact: true
+                }
             },
-            output: {
-                path: paths.build,
-                filename: "[name]"
-            },
-            // опции лоадеров на генерацию source-map не влияют
-            plugins: [
-                new webpack.ProvidePlugin({
-                    $: 'jquery',
-                    jQuery: 'jquery'
-                }),
-                // можно задать путь и расширение, но будет путаница
-                new ExtractTextPlugin('[name]')
-            ],
-            module: {
-                rules: [
+            {
+                test: /\.(sc|c)ss$/,
+                use: [
+                    // 'css-hot-loader',
                     {
-                        test: /\.js$/,
-                        exclude: /(node_modules|bower_components)/,
-                        use: {
-                            loader: 'babel-loader',
-                            options: {
-                                presets: ['@babel/preset-env']
-                            }
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: IS_DEV,
+                            // if hmr does not work, this is a forceful method.
+                            reloadAll: IS_DEV,
                         }
                     },
                     {
-                        test: /\.(jpg|png|svg)$/,
-                        loader: 'file-loader',
+                        loader: 'css-loader',
                         options: {
-                            name: 'images/[name].[ext]'
-                        },
-                    },
-                    // loader для компиляции scss в отдельный сss
-                    {
-                        test: /\.scss$/,
-                        include: [
-                            paths.sass,
-                        ],
-                        use: ExtractTextPlugin.extract({
-                            fallback: 'style-loader',
-                            use:
-                                [{
-                                    loader: 'css-loader',
-                                    options: {
-                                        //url: false потому что иначе не заработало...
-                                        url: false,
-                                        minimize: testEnv,
-                                    }
-                                },
-                                    {
-                                        loader: 'sass-loader',
-                                }],
-                        })
+                            sourceMap: IS_DEV
+                        }
                     },
                     {
-                        test: /\.css$/,
-                        include: [
-                            // paths.css возможно понадобиться указать папку где лежат css
-                        ],
-                        use: ExtractTextPlugin.extract({
-                            fallback: 'style-loader',
-                            use: 'css-loader',
-                        })
+                        loader: 'sass-loader',
+                        options: {
+                            data: '@import "./Layout/Variables.scss";',
+                            sourceMap: IS_DEV,
+                            includePaths: [dirAssets]
+                        }
                     }
                 ]
+            },
+            {
+                test: /\.(jpe?g|png|gif|woff2|woff|eot|svg|css|ttf)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]'
+                }
             }
-        }
-    ]);
-
-    // возвращаем настройки
-    if (!testEnv) {
-        return merge([
-            common,
-            devtool()
-        ]);
-    } else {
-        return merge([
-            common,
-            uglifyJS()
-        ]);
+        ]
     }
 };

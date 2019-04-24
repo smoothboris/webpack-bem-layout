@@ -1,0 +1,132 @@
+.price {
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 480px) {
+    justify-content: space-between;
+  }
+  @media screen and (min-width: 768px) and (max-width: 992px){
+    justify-content: space-between;
+  }
+  @media screen and (min-width: 1171px) {
+    justify-content: space-between;
+  }
+
+  &.price--catalog {
+    margin: $base-gutter 0;
+    justify-content: center;
+    .price__backdrop {
+      height: 60px;
+      justify-content: center;
+      @media screen and (min-width: 480px) and (max-width: 1171px) {
+        margin-right: 0;
+      }
+    }
+    .price__quantity {
+      margin-bottom: $base-gutter / 2;
+    }
+    .price__plus {
+      padding-right: 0;
+    }
+    .price__current {
+      font-size: $text-size * 2;
+    }
+    .price__old {
+      font-size: $text-size * 1.8;
+    }
+  }
+
+  &__backdrop {
+    display: flex;
+    flex-direction: column;
+    @media screen and (min-width: 480px) and (max-width: 1171px) {
+      margin-right: 25px;
+    }
+    @media screen and (min-width: 1171px) {
+      margin-right: 0;
+    }
+  }
+
+  &__quantity {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    //margin-bottom: $base-gutter;
+    p {
+      margin: 0;
+      font-size: $text-size * 1.4;
+      line-height: 1;
+      font-weight: 400;
+    }
+  }
+
+  &__plus {
+    color: rgba(black, 0.6);
+    padding: $base-gutter;
+    font-weight: bold;
+    font-size: $text-size * 1.6;
+    text-decoration: none;
+    &:hover {
+      color: rgba(black, 1);
+      text-decoration: none;
+    }
+    &:active,&:focus,&:visited {
+      text-decoration: none;
+    }
+  }
+
+  &__count[type="text"] {
+    display: inline-block;
+    width: 40px;
+    padding: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-align: center;
+    border-radius: 0;
+    color: rgba(black, 0.8);
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  &__minus {
+    color: rgba(black, 0.6);
+    padding: $base-gutter;
+    font-weight: bold;
+    font-size: $text-size * 1.6;
+    text-decoration: none;
+    &:hover {
+      color: rgba(black, 1);
+      text-decoration: none;
+    }
+    &:active,&:focus,&:visited {
+      text-decoration: none;
+    }
+  }
+
+  &__old {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    font-weight: 300;
+    font-size: $text-size * 1.8;
+    line-height: 1.35;
+    margin-bottom: -5px;
+    text-align: center;
+    &:before {
+      content: "";
+      border-top: 1px solid red;
+      border-radius: $base-radius;
+      position: absolute;
+      transform: rotate(-3deg);
+      width: 100%;
+      top: 50%;
+      left: 0;
+    }
+  }
+
+  &__current {
+    font-size: $text-size * 2.6;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+}

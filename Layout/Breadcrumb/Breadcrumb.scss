@@ -1,0 +1,25 @@
+.breadcrumb {
+
+  &.breadcrumb--thin {
+    background: transparent;
+
+    li {
+      font-size: 14px;
+
+      &:first-child:before {
+        content: '';
+        padding: 0;
+      }
+
+      &:before {
+        content: '\2192';
+        color: black;
+      }
+
+      a {
+        font-size: 14px;
+        text-decoration: underline;
+      }
+    }
+  }
+}

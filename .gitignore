@@ -1,0 +1,11 @@
+## System and generated files
+.idea
+
+## Directories
+log/
+dist/
+node_modules/
+
+## Files
+result.xml
+npm-debug.log

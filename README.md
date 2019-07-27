@@ -19,16 +19,20 @@ App/
 └───App.js -- Entry point
 Assets/
 └───Images/ 
-Layout/   
-└───Menu/ 
-│   └───Menu.js
-│   └───Menu.scss
-└───Button/
-│   └───Button.js
-│   └───Button.scss
-└───.../
-│   └───....js
-│   └───....scss
+Layout/         
+└───Blocks/ -- Блоки
+│   └───Menu/
+│   │   └───Menu.js
+│   │   └───Menu.scss
+│   └───Button/
+│   │   └───Button.js
+│   │   └───Button.scss
+│   └───.../
+│       └───....js
+│       └───....scss
+└───Pages/ -- Шаблоны страниц
+│   └───index/
+│   └───catalog/
 └───Layout.js -- Генерируемый файл, инициализирует модули
 └───EnvironmentStyles.scss -- Стили окружения (normalize.css, bootstrap, etc.)
 └───OtherStyles.scss -- Стили по каким-то причинам не входящие в понятие "блок"
@@ -65,6 +69,7 @@ npm watch  # вотчинг за файликами
 
 
 ## To Do
+* Свои assets для каждой страницы
 * Добавить mkdir в dev dependencies 
 * Организовать конфиги webpack'a в отдельный каталог
 * Добавить линтинг

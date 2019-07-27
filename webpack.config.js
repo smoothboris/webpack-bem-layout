@@ -12,9 +12,6 @@ const dirAssets = path.join(__dirname, 'assets');
 
 module.exports = {
     entry: {
-        //vendor: [
-        //    'jquery'
-        //],
         app: path.join(dirApp, 'App')
     },
     resolve: {
@@ -36,9 +33,15 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'index.ejs'),
-            title: 'Webpack Starter Kit',
-            // filename: 'index.html'
+            template: path.join(__dirname, 'Layout/Pages/index/index.ejs'),
+            title: 'Index',
+            filename: 'index.html'
+        }),
+
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'Layout/Pages/catalog/catalog.ejs'),
+            title: 'Catalog',
+            filename: 'catalog.html'
         }),
 
         new MiniCssExtractPlugin({

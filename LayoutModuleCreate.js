@@ -7,18 +7,18 @@
 //   - исправить пути к генерируемым папкам и файлам, если блоки проекта лежат не в ./src/blocks/
 //   - в терминале, будучи в корневой папке проекта, выполнить node createBlock.js [имя блока] [доп. расширения через пробел]
 
-const fs = require('fs');                // будем работать с файловой системой
-const mkdirp = require('mkdirp');        // зависимость, должна быть установлена (см. описание выше)
+const fs = require('fs');                 // будем работать с файловой системой
+const mkdirp = require('mkdirp');         // зависимость, должна быть установлена (см. описание выше)
 
 let blockName = process.argv[2];          // получим имя блока
-let defaultExtensions = ['scss', 'js']; // расширения по умолчанию
+let defaultExtensions = ['scss', 'js'];   // расширения по умолчанию
 let extensions = uniqueArray(defaultExtensions.concat(process.argv.slice(3)));  // добавим введенные при вызове расширения (если есть)
 
 // Если есть имя блока
 if(blockName) {
 
-  let dirPath = './Layout/' + blockName + '/'; // полный путь к создаваемой папке блока
-  mkdirp(dirPath, function(err){                 // создаем
+  let dirPath = './Layout/Blocks/' + blockName + '/'; // полный путь к создаваемой папке блока
+  mkdirp(dirPath, function(err){                     // создаем
 
     // Если какая-то ошибка — покажем
     if(err) {
@@ -92,7 +92,7 @@ function fileExist(path) {
 function layoutModuleSync() {
   const fs = require('fs');
   let moduleInit = `//Файл генерируется LayoutModuleCreate.js\n//Содержит модули (условно) относящиеся к верстке (Layout)\nimport './EnvironmentStyles.scss'\nimport './OtherStyles.scss'`
-  fs.readdir('./Layout/', function(error, folders) {
+  fs.readdir('./Layout/Blocks/', function(error, folders) {
     if ( error ) {
       console.log('При чтении папок произошла ошибка: ', error)
       return false
@@ -101,11 +101,11 @@ function layoutModuleSync() {
       if (!folder.match('\.(js|scss)$')) {
         // Инициализируем модуль
         moduleInit += `\n
-import ${folder} from './${folder}/${folder}'
+import ${folder} from './Blocks/${folder}/${folder}'
 ${folder}()
 
 if ( module.hot ) {
-  module.hot.accept('./${folder}/${folder}.js', function () {
+  module.hot.accept('./Blocks/${folder}/${folder}.js', function () {
     console.log('Accepting the updated ${folder} module!')
     ${folder}()
   })

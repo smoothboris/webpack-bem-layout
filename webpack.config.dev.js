@@ -14,6 +14,7 @@ module.exports = merge(webpackConfig, {
 
     devServer: {
         host: '0.0.0.0',
+        writeToDisk: false,
         hot: true,
     },
 
